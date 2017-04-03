@@ -1,0 +1,27 @@
+{
+  "name": "poe-open-indexer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "echo \"Run via serverless framework\" && exit 1",
+  "dependencies": {
+    "aws-sdk": "^2.37.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.19.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LouiseMcMahon/PoE-Open-Indexer.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LouiseMcMahon/PoE-Open-Indexer/issues"
+  },
+  "homepage": "https://github.com/LouiseMcMahon/PoE-Open-Indexer#readme"
+}
