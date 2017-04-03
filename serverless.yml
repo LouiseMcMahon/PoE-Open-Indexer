@@ -27,6 +27,7 @@ provider:
   timeout: 1
   environment:
     stage: ${self:provider.stage}
+    service: ${self:service}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
