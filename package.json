@@ -4,7 +4,8 @@
   "description": "",
   "main": "echo \"Run via serverless framework\" && exit 1",
   "dependencies": {
-    "aws-sdk": "^2.37.0"
+    "aws-sdk": "^2.37.0",
+    "serverless-plugin-include-dependencies": "^2.0.0"
   },
   "devDependencies": {
     "mocha": "^3.2.0",

@@ -46,25 +46,55 @@ provider:
           - - "arn:aws:s3:::"
             - Ref: ServerlessDeploymentBucket
             - "/*"
-    #TODO reduce this scope
-    - Effect: "Allow"
-      Action:
-        - "s3:InvokeFunction"
-      Resource:
-        Fn::Join:
-          - ""
-          - - "arn:aws:lambda::::"
 
 functions:
   Invoker:
     handler: src/invoker.invoker
     timeout: 61
-    memorySize: 128
+    memorySize: 512
+    role: InvokerRole
     events:
       - schedule:
         rate: rate(1 minutes)
         enabled: false
+    environment:
+        RiverARN: { "Fn::GetAtt": ["RiverLambdaFunction", "Arn" ] }
   River:
-    handler: src/river
+    handler: src/river.river
     timeout: 1
     memorySize: 128
+
+plugins:
+  - serverless-plugin-include-dependencies
+
+resources:
+  Resources:
+    InvokerRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:provider.stage}-InvokerRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        Policies:
+          - PolicyName: InvokeRiver
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource: arn:aws:logs:::log-group:/aws/lambda/*:*:*
+                - Effect: Allow
+                  Action:
+                    - lambda:InvokeFunction
+                  Resource: { "Fn::GetAtt": ["RiverLambdaFunction", "Arn" ] }

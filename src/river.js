@@ -1,8 +1,5 @@
-/**
- * Created by Louise on 03/04/2017.
- */
+'use strict';
 
-module.exports = function (event, context) {
-	return true;
-
+module.exports.river = function (event, context, callback) {
+	return callback(null, {nextId: 1234});
 };
